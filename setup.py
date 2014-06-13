@@ -5,6 +5,8 @@
 Setup envvars
 """
 
+import envvars
+
 try:
     from setuptools import setup
 except ImportError:
@@ -12,7 +14,7 @@ except ImportError:
 
 setup(
     name='envvars',
-    version='0.1.0',
+    version=envvars.__version__,
     description='Get and Set environment variables using .env file',
     author='Matt Seymour',
     author_email='matt@mattseymour.net',

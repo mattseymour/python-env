@@ -44,6 +44,12 @@ class TestEnvvars(unittest.TestCase):
         self.assertIs(type(envvars.get('INT')), int)
         self.assertEqual(envvars.get('INT'), 12345)
 
+    def test_get_default_value(self):
+        """ Test return value of default value """
+        self.assertEqual(
+            envvars.get('MISSING_KEY', 'default_value'),
+            'default_value'
+        )
 
     def test_get_line_(self):
         """ Test the _get_line_ generator functionlity """
@@ -57,7 +63,7 @@ class TestEnvvars(unittest.TestCase):
             self.assertIs(type(response), types.GeneratorType)
             response = list(response)
 
-            _file_.assert_called_once_with('filepath', 'rb')
+            _file_.assert_called_once_with('filepath')
             self.assertEqual(len(response), 2)
             self.assertEqual(
                 [('KEY1', 'value1'), ('KEY2', 'value2')],
