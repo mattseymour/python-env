@@ -14,7 +14,7 @@ __email__ = 'matt@mattseymour.net'
 __version__ = '0.1.0'
 
 
-def get(key):
+def get(key, default=None):
     """
         Searches os.environ. If a key is found try evaluating its type else;
         return the string.
@@ -22,9 +22,9 @@ def get(key):
         returns: k->value (type as defined by ast.literal_eval)
     """
     try:
-        return ast.literal_eval(os.environ.get(key.upper(), None))
+        return ast.literal_eval(os.environ.get(key.upper(), default))
     except (ValueError, SyntaxError):
-        return os.environ.get(key.upper(), None)
+        return os.environ.get(key.upper(), default)
 
 
 def load(filepath=None):
