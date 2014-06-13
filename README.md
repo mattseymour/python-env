@@ -49,7 +49,7 @@ Example manage.py file:
 Example settings.py file:
 
     import envvars
-    SECRET_KEY = envvars.get('DJANGO_SECRETKEY')
+    SECRET_KEY = envvars.get('DJANGO_SECRETKEY', default='fall back value')
 
 
 
