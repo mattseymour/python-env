@@ -1,6 +1,8 @@
 Python and Django Environment Variables
 ============
 
+![Downloads this month](https://pypip.in/d/envvars/badge.png)
+
 A simple module which will allow python apps and webapps to read .env files (forman style); storing the key-value in the `os environment variables`.
 
 ## Installation:
