@@ -22,6 +22,7 @@ def get(key, default=None):
         returns: k->value (type as defined by ast.literal_eval)
     """
     try:
+        # Attempt to evaluate into python literal
         return ast.literal_eval(os.environ.get(key.upper(), default))
     except (ValueError, SyntaxError):
         return os.environ.get(key.upper(), default)
@@ -57,6 +58,8 @@ def load(filepath=None):
         filepath = os.path.join('.env')
 
     for key, value in _get_line_(filepath):
+        # set the key, value in the python environment vars dictionary
+        # does not make modifications system wide.
         os.environ.setdefault(key, value)
 
 
@@ -68,9 +71,10 @@ def _get_line_(filepath):
     """
     for line in open(filepath):
         line = line.strip()
+        # allows for comments in the file
         if line.startswith('#') or '=' not in line:
             continue
-
+        # split on the first =, allows for subsiquent `=` in strings
         key, value = line.split('=', 1)
         key = key.strip().upper()
         value = value.strip()
