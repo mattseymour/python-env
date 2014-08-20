@@ -54,13 +54,14 @@ def load(filepath=None):
         pass
     else:
         if not os.path.exists('.env'):
-            return
+            return False
         filepath = os.path.join('.env')
 
     for key, value in _get_line_(filepath):
         # set the key, value in the python environment vars dictionary
         # does not make modifications system wide.
         os.environ.setdefault(key, str(value))
+    return True
 
 
 def _get_line_(filepath):
