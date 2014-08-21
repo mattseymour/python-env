@@ -11,7 +11,7 @@ import ast
 
 __author__ = 'Matt Seymour'
 __email__ = 'matt@mattseymour.net'
-__version__ = '0.2.0'
+__version__ = '0.3.0'
 
 
 def get(key, default=None):
@@ -60,7 +60,7 @@ def load(filepath=None):
     for key, value in _get_line_(filepath):
         # set the key, value in the python environment vars dictionary
         # does not make modifications system wide.
-        os.environ.setdefault(key, value)
+        os.environ.setdefault(key, str(value))
 
 
 def _get_line_(filepath):
@@ -81,5 +81,13 @@ def _get_line_(filepath):
 
         if not (key and value):
             continue
+
+        try:
+            # evaluate the string before adding into environment
+            # resolves any hanging (') characters
+            value = ast.literal_eval(value)
+        except (ValueError, SyntaxError):
+            pass
+
         #return line
         yield (key, value)

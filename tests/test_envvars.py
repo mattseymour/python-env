@@ -95,3 +95,22 @@ class TestEnvvars(unittest.TestCase):
             mock_pathexists.assert_called_once_with('/file/path')
             self.assertEqual(_environ['KEY11'], 'value1')
             self.assertEqual(_environ['KEY22'], 'value2')
+
+    def test_str_(self):
+        """ Test the _get_line_ generator functionlity """
+        _file_ = mock.Mock(
+            return_value=['key1=\'value1\'', 'key2=value2', '# this is a comment',
+                          'an invalid line'])
+        with mock.patch('envvars.open', _file_, create=True):
+
+            # pylint: disable=W0212
+            response = envvars._get_line_('filepath')
+            self.assertIs(type(response), types.GeneratorType)
+            response = list(response)
+
+            _file_.assert_called_once_with('filepath')
+            self.assertEqual(len(response), 2)
+            self.assertEqual(
+                [('KEY1', 'value1'), ('KEY2', 'value2')],
+                response
+            )
