@@ -55,7 +55,7 @@ class TestEnvvars(unittest.TestCase):
         """ Test the _get_line_ generator functionlity """
         _file_ = mock.Mock(
             return_value=['key1=value1', 'key2=value2', '# this is a comment',
-                          'an invalid line'])
+                          'an invalid line', '='])
         with mock.patch('envvars.open', _file_, create=True):
 
             # pylint: disable=W0212
@@ -96,6 +96,32 @@ class TestEnvvars(unittest.TestCase):
             self.assertEqual(_environ['KEY11'], 'value1')
             self.assertEqual(_environ['KEY22'], 'value2')
 
+    def test_load_filepath_missing(self):
+        """
+        Test case where no filepath has been enter by the user.
+        """
+        with mock.patch('os.path.exists') as mock_pathexists:
+            mock_pathexists.return_value = False
+            response = envvars.load()
+        self.assertFalse(response)
+
+        with mock.patch('os.path.exists') as mock_pathexists, \
+            mock.patch('envvars._get_line_') as mock_line, \
+            mock.patch('os.environ') as mock_environ:
+            mock_line.return_value = [
+                ('KEY1', 'value1'),
+                ('KEY2', 'value2')
+            ]
+            mock_pathexists.return_value = True
+            _environ = {}
+            def _setdetault(key, value):
+                """ Set key->value """
+                _environ.setdefault(key, value)
+            mock_environ.setdefault.side_effect = _setdetault
+            response = envvars.load()
+
+        self.assertTrue(response)
+
     def test_str_(self):
         """ Test the _get_line_ generator functionlity """
         _file_ = mock.Mock(
@@ -114,3 +140,13 @@ class TestEnvvars(unittest.TestCase):
                 [('KEY1', 'value1'), ('KEY2', 'value2')],
                 response
             )
+
+    def test_save(self):
+        """
+        Basic test of the save method
+        """
+
+        with mock.patch('envvars.open', create=True) as open_mock:
+            kwargs = {'A':'1234567'}
+            envvars.save(**kwargs)
+            open_mock.assert_called_once_with('.env', 'wb')
