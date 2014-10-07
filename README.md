@@ -1,6 +1,6 @@
 Python and Django Environment Variables
 ============
-
+[![Build Status](https://travis-ci.org/mattseymour/python-envvars.svg?branch=travis-ci-build)](https://travis-ci.org/mattseymour/python-envvars)
 ![Downloads this month](https://pypip.in/d/envvars/badge.png)
 
 NOTE: If you are installing from source please download the latest tagged version of the code (... unless you are brave in which case use master).
