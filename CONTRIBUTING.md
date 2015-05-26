@@ -3,4 +3,11 @@
 There are many ways you can help contribute to python-envvars.
 You can contribute code, write documentation and report bugs. 
 
-If you notice an issue within the code or think of an enhancement then please subit a github issue; if you are in the position to you could also include a fix to the issue.
+## Issues:
+If you notice an issue within the code then please submit a github issue; or contact @MattWritesCode on twitter.
+
+
+## Improvements:
+If you are in the position fix an issue or submit an enhancement please create a pull request.
+
+If you have an idea for an enhancement please create a ticket first to confirm with the author.
