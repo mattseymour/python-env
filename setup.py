@@ -5,7 +5,7 @@
 Setup envvars
 """
 
-import envvars
+import dotenv
 
 try:
     from setuptools import setup
@@ -13,13 +13,13 @@ except ImportError:
     from distutils.core import setup
 
 setup(
-    name='envvars',
-    version=envvars.__version__,
+    name='python-env',
+    version=dotenv.__version__,
     description='Get and Set environment variables using .env file',
     author='Matt Seymour',
     author_email='matt@mattseymour.net',
-    url="http://github.com/mattseymour/python-envvars",
-    packages=['envvars'],
+    url="http://github.com/mattseymour/python-env",
+    packages=['dotenv'],
     license='MIT',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
