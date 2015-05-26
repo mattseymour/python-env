@@ -6,7 +6,7 @@ Tests envvars package
 import os
 import unittest
 import types
-import envvars
+import dotenv
 
 try:
     import mock
@@ -26,28 +26,28 @@ class TestEnvvars(unittest.TestCase):
 
     def test_get_string(self):
         """ Test return value is of the correct type <string> """
-        self.assertIs(type(envvars.get('string')), str)
-        self.assertEqual('This is a string', envvars.get('string'))
+        self.assertIs(type(dotenv.get('string')), str)
+        self.assertEqual('This is a string', dotenv.get('string'))
 
     def test_get_quoted_string(self):
         """ Test return value is of the correct type <string> """
-        self.assertIs(type(envvars.get('QUOTED_STRING')), str)
-        self.assertEqual('True', envvars.get('QUOTED_STRING'))
+        self.assertIs(type(dotenv.get('QUOTED_STRING')), str)
+        self.assertEqual('True', dotenv.get('QUOTED_STRING'))
 
     def test_get_boolean(self):
         """ Test return value is of the correct type <bool> """
-        self.assertIs(type(envvars.get('BOOLEAN')), bool)
-        self.assertFalse(envvars.get('BOOLEAN'))
+        self.assertIs(type(dotenv.get('BOOLEAN')), bool)
+        self.assertFalse(dotenv.get('BOOLEAN'))
 
     def test_get_int(self):
         """ Test return value is of the correct type <int> """
-        self.assertIs(type(envvars.get('INT')), int)
-        self.assertEqual(envvars.get('INT'), 12345)
+        self.assertIs(type(dotenv.get('INT')), int)
+        self.assertEqual(dotenv.get('INT'), 12345)
 
     def test_get_default_value(self):
         """ Test return value of default value """
         self.assertEqual(
-            envvars.get('MISSING_KEY', 'default_value'),
+            dotenv.get('MISSING_KEY', 'default_value'),
             'default_value'
         )
 
@@ -56,10 +56,10 @@ class TestEnvvars(unittest.TestCase):
         _file_ = mock.Mock(
             return_value=['key1=value1', 'key2=value2', '# this is a comment',
                           'an invalid line', '='])
-        with mock.patch('envvars.open', _file_, create=True):
+        with mock.patch('dotenv.open', _file_, create=True):
 
             # pylint: disable=W0212
-            response = envvars._get_line_('filepath')
+            response = dotenv._get_line_('filepath')
             self.assertIs(type(response), types.GeneratorType)
             response = list(response)
 
@@ -71,7 +71,7 @@ class TestEnvvars(unittest.TestCase):
             )
 
 
-    @mock.patch('envvars._get_line_', create=True)
+    @mock.patch('dotenv._get_line_', create=True)
     def test_load(self, mock_line):
         """
             Test loading data into os.environ from file content
@@ -90,7 +90,7 @@ class TestEnvvars(unittest.TestCase):
             mock_pathexists.return_value = True
             mock_environ.setdefault.side_effect = _setdetault
 
-            envvars.load('/file/path')
+            dotenv.load('/file/path')
 
             mock_pathexists.assert_called_once_with('/file/path')
             self.assertEqual(_environ['KEY11'], 'value1')
@@ -102,11 +102,11 @@ class TestEnvvars(unittest.TestCase):
         """
         with mock.patch('os.path.exists') as mock_pathexists:
             mock_pathexists.return_value = False
-            response = envvars.load()
+            response = dotenv.load()
         self.assertFalse(response)
 
         with mock.patch('os.path.exists') as mock_pathexists, \
-            mock.patch('envvars._get_line_') as mock_line, \
+            mock.patch('dotenv._get_line_') as mock_line, \
             mock.patch('os.environ') as mock_environ:
             mock_line.return_value = [
                 ('KEY1', 'value1'),
@@ -118,7 +118,7 @@ class TestEnvvars(unittest.TestCase):
                 """ Set key->value """
                 _environ.setdefault(key, value)
             mock_environ.setdefault.side_effect = _setdetault
-            response = envvars.load()
+            response = dotenv.load()
 
         self.assertTrue(response)
 
@@ -127,10 +127,10 @@ class TestEnvvars(unittest.TestCase):
         _file_ = mock.Mock(
             return_value=['key1=\'value1\'', 'key2=value2', '# this is a comment',
                           'an invalid line'])
-        with mock.patch('envvars.open', _file_, create=True):
+        with mock.patch('dotenv.open', _file_, create=True):
 
             # pylint: disable=W0212
-            response = envvars._get_line_('filepath')
+            response = dotenv._get_line_('filepath')
             self.assertIs(type(response), types.GeneratorType)
             response = list(response)
 
@@ -146,7 +146,7 @@ class TestEnvvars(unittest.TestCase):
         Basic test of the save method
         """
 
-        with mock.patch('envvars.open', create=True) as open_mock:
+        with mock.patch('dotenv.open', create=True) as open_mock:
             kwargs = {'A':'1234567'}
-            envvars.save(**kwargs)
+            dotenv.save(**kwargs)
             open_mock.assert_called_once_with('.env', 'wb')

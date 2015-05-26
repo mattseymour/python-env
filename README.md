@@ -1,15 +1,14 @@
-Python and Django Environment Variables
+.env files for Python and Django
 ============
-[![Build Status](https://travis-ci.org/mattseymour/python-envvars.svg?branch=travis-ci-build)](https://travis-ci.org/mattseymour/python-envvars)
-![Downloads this month](https://pypip.in/d/envvars/badge.png)
+[![Build Status](https://travis-ci.org/mattseymour/python-dotenv.svg?branch=travis-ci-build)](https://travis-ci.org/mattseymour/python-dotenv)
+![Downloads this month](https://pypip.in/d/python-dotenv/badge.png)
 
-NOTE: If you are installing from source please download the latest tagged version of the code (... unless you are brave in which case use master).
+A `.env` file is a text file holding values which will be added into the applications environment variables. The file uses the following format; a single key=value pair on each line.
 
-A simple module which will allow python apps and webapps to read .env files (forman style); storing the key-value in the `os environment variables`.
 
 ## Installation:
 
-Install via pip: `pip install envvars` or by download the package. Running `python setup.py`.
+Install via pip: `pip install python-env` or by download the package. Running `python setup.py`.
 
 
 ## Usage:
@@ -18,11 +17,11 @@ Loading environment variables into `os.environ`:
 
 Add the following line to your main python file.
 
-    import envvars
+    import dotenv
 
 Filepath can be blank if `.env` is in current working directory
 
-    envvars.load() or envvars.load('/path/to/file')
+    dotenv.load() or dotenv.load('/path/to/file')
 
 ### Django
 
@@ -39,11 +38,11 @@ Example manage.py file:
     import os
     import sys
 
-    import envvars
+    import dotenv
 
     if __name__ == "__main__":
         # sets DJANGO_SETTINGS_MODULE='settings.dev'
-        envvars.load()
+        dotenv.load()
 
         from django.core.management import execute_from_command_line
 
@@ -52,17 +51,17 @@ Example manage.py file:
 
 Example settings.py file:
 
-    import envvars
-    SECRET_KEY = envvars.get('DJANGO_SECRETKEY', default='fall back value')
+    import dotenv
+    SECRET_KEY = dotenv.get('DJANGO_SECRETKEY', default='fall back value')
 
 
 
 ## Using environment variables:
 
-You can use the set environment variables using either `os.environ` or `envvars.get`. `envvars.get` has the added advantage of converting to python type. Therefore, a key value set of `KEY=True` will be returned as a bool type not string as os.environ would normally do.
+You can use the set environment variables using either `os.environ` or `dotenv.get`. `dotenv.get` has the added advantage of converting to python type. Therefore, a key value set of `KEY=True` will be returned as a bool type not string as os.environ would normally do.
 
-Envvars.get can be used within your application by:
+dotenv.get can be used within your application by:
 
     # key=12345
-    return_val = envvars.get('key')
+    return_val = dotenv.get('key')
     > 1234 # type int
