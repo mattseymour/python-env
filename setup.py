@@ -17,7 +17,7 @@ setup(
     version=dotenv.__version__,
     description='Get and Set environment variables using .env file',
     author='Matt Seymour',
-    author_email='matt@mattseymour.net',
+    author_email='mattaseymour@gmail.com',
     url="http://github.com/mattseymour/python-env",
     packages=['dotenv'],
     license='MIT',
