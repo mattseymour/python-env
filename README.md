@@ -1,4 +1,4 @@
-.env files for Python and Django
+.env files for Python
 ============
 [![Build Status](https://travis-ci.org/mattseymour/python-dotenv.svg?branch=travis-ci-build)](https://travis-ci.org/mattseymour/python-dotenv)
 ![Downloads this month](https://pypip.in/d/python-dotenv/badge.png)
@@ -23,7 +23,7 @@ Filepath can be blank if `.env` is in current working directory
 
     dotenv.load() or dotenv.load('/path/to/file')
 
-### Django
+### Usage with Django
 
 To load `.env` into django add the following lines of code into the `manage.py` and `wsgi.py` files.
 
