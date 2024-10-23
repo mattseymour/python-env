@@ -9,8 +9,6 @@
 import os
 import ast
 
-__author__ = 'Matt Seymour'
-__email__ = 'matt@mattseymour.net'
 __version__ = '1.0.0'
 
 
